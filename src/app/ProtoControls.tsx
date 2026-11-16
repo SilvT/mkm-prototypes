@@ -6,10 +6,12 @@ export type Target = { screen: "signin" } | { screen: "reset"; step: "request" |
 
 const same = (a: Target, b: Target) => a.screen === b.screen && (a.screen !== "reset" || (b.screen === "reset" && a.step === b.step))
 
-type Props = { current: Target; onGo: (t: Target) => void; onRestart: () => void }
+export type Display = "frame" | "full"
+
+type Props = { current: Target; display: Display; onGo: (t: Target) => void; onRestart: () => void; onDisplay: (d: Display) => void }
 
 // Prototype chrome (not part of the design): a floating button top left that opens the list of flows and screens. Escape closes it.
-export function ProtoControls({ current, onGo, onRestart }: Props) {
+export function ProtoControls({ current, display, onGo, onRestart, onDisplay }: Props) {
   const [open, setOpen] = useState(false)
   useEffect(() => {
     if (!open) return
@@ -29,6 +31,12 @@ export function ProtoControls({ current, onGo, onRestart }: Props) {
       {open && (
         <aside aria-label="Prototype controls" className="animate-motion-enter flex w-surfaces-s max-w-[calc(100vw-var(--size-atom-xl))] flex-col gap-content-m rounded-large bg-surface-neutral-extrasubtle p-content-l text-body-b3 text-content-neutral-bold shadow-[0_0_0_var(--border-width-light)_var(--stroke-neutral-light)]">
           <h2 className="text-title-h5">Prototype controls</h2>
+
+          <section className="flex flex-col gap-content-xs">
+            <h3 className="text-body-b4 text-content-neutral-medium">Display</h3>
+            <Button label="Desktop frame" type={display === "frame" ? "primary" : "tertiary"} hasLeadIcon={false} hasTrailIcon={false} onClick={() => onDisplay("frame")} className="justify-start" />
+            <Button label="Full screen (responsive)" type={display === "full" ? "primary" : "tertiary"} hasLeadIcon={false} hasTrailIcon={false} onClick={() => onDisplay("full")} className="justify-start" />
+          </section>
 
           <section className="flex flex-col gap-content-xs">
             <h3 className="text-body-b4 text-content-neutral-medium">Flow: Login</h3>
