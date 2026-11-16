@@ -1,5 +1,6 @@
 // PLACEHOLDER: sections-card (section icon, name, optional count) is not in the design system yet; replace when built in ds_POC.
-// The 350 width and 134 min height have no token (raw values, Gap). Colours and spacing follow the Figma node 42:19455.
+// Adapted from Figma node 42:19455 (350 x 134, two rows of 3 + 2) so the landing page fits a 1440 x 800 screen without vertical scroll: the card now grows to share the row
+// (min width dimensions-200, no fixed width or height), with tighter padding; the row wraps when the screen is narrower. Colours follow the node.
 import { Icon } from "@/components/ui/icon"
 import type { IconName } from "@/components/ui/icon"
 import { IndicatorCount } from "@/components/ui/indicator-count"
@@ -11,12 +12,12 @@ function SectionCard({ icon, label, count, className }: Props) {
   return (
     <div
       className={cn(
-        "flex min-h-[134px] w-[350px] items-center justify-center gap-content-m rounded-large bg-surface-neutral-extrasubtle px-content-4xl py-content-2xl",
+        "flex min-w-(--dimensions-200) flex-1 items-center justify-center gap-content-m rounded-large bg-surface-neutral-extrasubtle px-content-l py-content-2xl",
         "border-b-(length:--border-width-strong) border-l-(length:--border-width-strong) border-solid border-gradient-alert-info-0",
         className,
       )}
     >
-      <div className="flex flex-1 items-center gap-content-2xl">
+      <div className="flex flex-1 items-center gap-content-l">
         <Icon name={icon} className="size-item-large text-content-brand-medium" />
         <p className="text-title-h2 text-text-header-sub-neutral">{label}</p>
       </div>

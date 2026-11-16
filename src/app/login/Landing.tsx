@@ -6,8 +6,8 @@ export function Landing() {
   return (
     <div className="animate-motion-enter flex min-h-screen bg-(image:--gradient-general)">
       <Sidebarnav isCollapsed className="h-auto self-stretch" />
-      <main className="flex flex-1 flex-col items-center justify-between gap-layout-s px-layout-m py-layout-l">
-        <header className="flex flex-col items-center gap-content-l pb-layout-s">
+      <main className="flex flex-1 flex-col items-center justify-between gap-layout-s px-layout-m py-layout-m">
+        <header className="flex flex-col items-center gap-content-l">
           <h1 className="text-title-h0 text-text-header-brand">Marketing Management</h1>
           <p className="text-title-h3 text-text-header-sub-neutral">Fuel your connections, Drive Growth</p>
         </header>
@@ -38,7 +38,7 @@ export function Landing() {
           }
         />
 
-        <section aria-label="Sections" className="flex w-full flex-wrap items-center justify-center gap-layout-s px-layout-l py-layout-s">
+        <section aria-label="Sections" className="flex w-full flex-wrap items-center justify-center gap-content-l px-layout-m">
           {sections.map((s) => (
             <SectionCard key={s.label} icon={sectionIcons[s.section]} label={s.label} count={s.count === undefined ? undefined : formatCount(s.count)} />
           ))}
