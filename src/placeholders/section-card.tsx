@@ -19,7 +19,7 @@ function SectionCard({ icon, label, count, className }: Props) {
     >
       <div className="flex flex-1 items-center gap-content-l">
         <Icon name={icon} className="size-item-large text-content-brand-medium" />
-        <p className="text-title-h2 text-text-header-sub-neutral">{label}</p>
+        <p className="text-title-h3 text-text-header-sub-neutral">{label}</p>
       </div>
       {count !== undefined && <IndicatorCount type="main" size="large" label={count} />}
     </div>

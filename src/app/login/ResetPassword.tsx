@@ -92,7 +92,7 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
         {step === "sent" && (
           <div className="flex flex-col gap-content-l">
             <Icon name="check" className="size-item-large text-content-brand-strong" />
-            <h2 className="text-title-h3">Token sent!</h2>
+            <h2 className="text-title-h4">Token sent!</h2>
             <p className="text-body-b3">Check your email and collect the token provided</p>
             <Button label="Create New Password" hasLeadIcon={false} className="self-start" onClick={() => setStep("new")} />
           </div>
@@ -100,7 +100,7 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
 
         {step === "new" && (
           <form noValidate onSubmit={(e) => { e.preventDefault(); reset() }} className="flex flex-col gap-content-l">
-            <h2 className="text-title-h3">New password</h2>
+            <h2 className="text-title-h4">New password</h2>
             <p className="text-body-b3">Set your brand new password</p>
             <InputfieldStack
               label="Token"
@@ -153,7 +153,7 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
         {step === "success" && (
           <div role="status" className="flex flex-col gap-content-l">
             <Icon name="lock" className="size-item-large text-content-brand-strong" />
-            <h2 className="text-title-h3">Password reset successful</h2>
+            <h2 className="text-title-h4">Password reset successful</h2>
             <p className="text-body-b3">You have successfully reset your password. Login page will load automatically.</p>
             <LineLoader className="self-end" />
           </div>

@@ -44,7 +44,7 @@ export function SignIn({ onSignedIn, onForgot }: Props) {
     <AuthStage>
       <AuthCard label="Log in">
         <form noValidate onSubmit={(e: FormEvent) => e.preventDefault()} onKeyDown={onKeyDown} onClick={onCardClick} className="flex flex-col gap-content-l">
-          <h2 className="text-title-h3">Welcome!</h2>
+          <h2 className="text-title-h4">Welcome!</h2>
           <InputfieldStack
             label="Username"
             type="email"

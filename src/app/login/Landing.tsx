@@ -8,8 +8,8 @@ export function Landing() {
       <Sidebarnav isCollapsed className="h-auto self-stretch" />
       <main className="flex flex-1 flex-col items-center justify-between gap-layout-s px-layout-m py-layout-m">
         <header className="flex flex-col items-center gap-content-l">
-          <h1 className="text-title-h0 text-text-header-brand">Marketing Management</h1>
-          <p className="text-title-h3 text-text-header-sub-neutral">Fuel your connections, Drive Growth</p>
+          <h1 className="text-title-h1 text-text-header-brand">Marketing Management</h1>
+          <p className="text-title-h4 text-text-header-sub-neutral">Fuel your connections, Drive Growth</p>
         </header>
 
         <Card
@@ -18,14 +18,14 @@ export function Landing() {
               <AvatarSingle content={user.initials} />
               <div className="flex flex-col items-start gap-content-s">
                 <p className="text-body-b1 text-text-header-sub-brand">Welcome</p>
-                <p className="text-title-h2 text-text-header-brand">{user.firstName}!</p>
+                <p className="text-title-h3 text-text-header-brand">{user.firstName}!</p>
               </div>
               <p className="text-body-b3 text-text-header-sub-neutral">{longDate()}</p>
             </>
           }
           containerTwo={
             <>
-              <h2 className="text-title-h4 text-content-brand-bold">What you have missed</h2>
+              <h2 className="text-title-h5 text-content-brand-bold">What you have missed</h2>
               <ul className="flex w-full flex-1 flex-col items-end gap-content-s">
                 {missed.map((m, i) => (
                   <NotificationItem key={m.label} icon={sectionIcons[m.section]} label={m.label} count={formatCount(m.count)} underline={i === missed.length - 1} />
