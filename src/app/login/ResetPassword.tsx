@@ -110,7 +110,7 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
               onChange={(e) => { setToken(e.target.value); setTokenWrong(false) }}
               hasFeedback={tokenWrong ? "error" : tokenShape ? "success" : "null"}
               fieldStatus={keepLook(tokenWrong ? "error" : tokenShape ? "success" : "null")}
-              message={tokenWrong ? { kind: "error", type: "editable", text: "Token is not valid. It needs to be 7 alphanumerical characters.", hasLink: false } : undefined}
+              message={tokenWrong ? { kind: "error", type: "editable", text: tokenShape ? "Token is not valid" : "Token is not valid. It needs to be 7 alphanumerical characters.", hasLink: false } : undefined}
             />
             <InputfieldStack
               label="Password"

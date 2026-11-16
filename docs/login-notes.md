@@ -19,6 +19,7 @@ Demo data: `src/app/auth/seed.ts` (email, password, token `051TD45`). Change pas
 - **Feedback only on active fields:** inputfield-base draws error and success only while the field is hovered or focused; Figma shows them on idle fields. Worked around with `fieldStatus="active"` (`keepLook` in `validation.ts`).
 - **Focusable feedback icon:** the success/error icon is a button in the tab order, so Tab from Username lands on it before Password. Figma order is username, password, eye, Forgot, Log in.
 - **"ask to reset" link:** the error atom renders it without an `onClick`/`href`, so it is not keyboard reachable. Click is caught on the card as a workaround.
+- **Token error copy:** a token with the wrong format (not 7 letters/digits) shows "Token is not valid. It needs to be 7 alphanumerical characters." (The UI). A well-formed token the mock does not accept (only `051TD45` works) shows "Token is not valid" (Proposed; The UI does not design this case).
 - **Error copy:** "Token is not valid" uses the `editable` type with a text override (no dedicated type).
 - **Card:** built as a small `AuthCard` in app code (white, 450 wide); the DS `card` is a different shape (two containers, accent border). Reset cards use the same 450 width; Figma is 365.
 - **Page background:** `AuthStage` uses `--gradient-general` directly; needs a design system page/background component.
