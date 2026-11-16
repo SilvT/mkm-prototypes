@@ -1,0 +1,2 @@
+/* The design system (tokens, theme, fonts, shadcn bridge) comes from ds.css, written by `npm run ds:sync`. */
+@import "./ds.css";

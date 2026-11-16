@@ -1,0 +1,75 @@
+import type { ComponentContract } from "@/lib/contract"
+import { indicatorCountSizes, indicatorCountStatuses, indicatorCountTypes } from "./indicator-count"
+
+export const indicatorCountContract = {
+  name: "indicator-count",
+  status: "Draft",
+  version: "1.1.1",
+  changelog: [
+    { version: "1.1.1", date: "2026-11-06", changes: ["Gap sweep: the buttonMode decision moved from Gaps to Rules; the open part (which mode Figma draws per status) stays a gap."] },
+    { version: "1.1.0", date: "2026-11-04", changes: ["Added buttonMode prop (primary, secondary, tertiary, inverse; default tertiary)."] },
+    { version: "1.0.0", date: "2026-11-04", changes: ["First build, with borders from the border-w-* utilities."] },
+  ],
+  source: { figma: "https://www.figma.com/design/on8W6gIbhg4xI5P86pXAQw/The-library", node: "40004057:16884" },
+  summary: "A small square badge that shows a count, such as unread notifications, messages in an inbox or a step number.",
+  whenToUse: [
+    "Notification count and messages on an inbox: type main, size medium (the Figma default).",
+    "Stepper elements: type secondary (Figma description).",
+    "Size large: only on card information on the landing page (Figma description).",
+  ],
+  whenNotToUse: [
+    "To name the status of a record. That is badge-status.",
+    "To show a change in a metric. That is indicator-feedback.",
+    "As a button. It looks like one (main reuses the button tokens) but it is not interactive.",
+  ],
+  props: {
+    type: { type: "IndicatorCountType", required: false, default: "main", description: "main (button-token look, radius medium) or secondary (filled, radius large)." },
+    status: { type: "IndicatorCountStatus", required: false, default: "active", description: "The visual status from Figma: active, press, hover, focus, disabled. It is a prop, not a pointer reaction: the component is not interactive." },
+    size: { type: "IndicatorCountSize", required: false, default: "medium", description: "medium (24, text title-h4) or large (32, text title-h3)." },
+    buttonMode: { type: "IndicatorCountMode", required: false, default: "tertiary", description: "primary, secondary, tertiary or inverse. Which button token mode type main reads. Decided by Silvia: main follows tertiary but allows all four. Code-only: Figma has no property for it. Ignored for type secondary." },
+    label: { type: "string", required: false, default: "7", description: "The count text (Figma TEXT property 'label'). Default is the Figma sample text." },
+  },
+  variants: { type: indicatorCountTypes, status: indicatorCountStatuses, size: indicatorCountSizes },
+  states: ["active", "press", "hover", "focus", "disabled"],
+  tokens: {
+    colors: [
+      "buttons-default-background, buttons-default-content (main, active)",
+      "buttons-press-background, buttons-press-content (main, press)",
+      "buttons-hover-content (main, hover)",
+      "buttons-focus-background, buttons-focus-content (main, focus)",
+      "buttons-disable-background, buttons-disable-content (main, disabled)",
+      "surface-brand-subtle, content-brand-strong (secondary, active and focus text)",
+      "surface-brand-light, content-brand-bold (secondary, press)",
+      "content-brand-medium (secondary, hover text)",
+      "surface-brand-ultrasubtle (secondary, focus background)",
+      "surface-neutral-subtle, content-disabled-neutral-contrast (secondary, disabled)",
+      "gradient-surface-extrasubtle (main, hover background)",
+      "gradient-surface-subtle (secondary, hover background)",
+    ],
+    spacing: ["content-xs (padding top, left, right)", "content-2xs (padding bottom)"],
+    radius: ["medium (main)", "large (secondary)"],
+    text: ["title-h4 (medium)", "title-h3 (large)"],
+    size: ["item-large (large, 32)", "atom-s (medium min height 24, Proposed)"],
+  },
+  rules: [
+    "Decided: main follows tertiary by default and allows all four button modes through the code-only buttonMode prop.",
+    "MUST pass a short count as the label. Plain text only.",
+    "MUST NOT set colours per instance. They follow type and status.",
+    "MUST NOT treat it as interactive: no click handler, no focus, no hover reaction. `status` only shows a state.",
+    "Main uses the buttons-* tokens because it acts like a non-interactive button (Figma design note). It does not make it a button.",
+  ],
+  accessibility: [
+    "A bare number carries no meaning to a screen reader. The surrounding element MUST say what is counted (for example the label of the inbox link).",
+    "Not interactive: no focus, no hover. The focus status is a visual state only, not a focus ring.",
+    "Disabled contrast is not yet verified by axe (see Gaps).",
+  ],
+  gaps: [
+    "Borders are built from the snapshot using border-w-* utilities (added to scripts/build-css.py). Main press binds buttons-press-border-thickness, which is 0 in the tertiary mode the component sets, so no press border shows in tertiary although Figma draws 1.5. The 1.5 value belongs to another button mode: use buttonMode to pick it.",
+    "Which button mode Figma draws for each status is not published; the fallback colours match tertiary.",
+    "Medium width and height are FIXED 24 in Figma and not bound to a token (min width 24 is raw too; min height is bound to touch-size, which changes with data-size). Built as min-h-atom-s with aspect-square (24, Proposed). Large width is bound to size-item-large (32); its height 32 is not bound.",
+    "The label can be longer than one digit (for example 12 or 99+). The box is a fixed square in Figma, so what happens with longer labels (grow, clip, '99+' rule) is not designed.",
+    "Hover and press are not wired to the pointer. Whether the component is ever interactive is not designed.",
+    "The disabled variants (main: buttons-disable-content on buttons-disable-background; secondary: content-disabled-neutral-contrast on surface-neutral-subtle) have not been checked for contrast. axe may flag them like badge-status disabled.",
+    "Size large has no confirmed content rule beyond the Figma description (landing page card information only).",
+  ],
+} satisfies ComponentContract
