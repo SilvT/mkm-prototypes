@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Button, Icon, InputfieldStack, LineLoader, Link } from "@/ui"
 import { auth, AuthError } from "@/app/auth"
 import { AuthCard, AuthStage } from "./AuthStage"
-import { isEmail, keepLook } from "./validation"
+import { isEmail, keepLook, passwordStrength, PASSWORD_MAX, PASSWORD_MIN } from "./validation"
 
 type Step = "request" | "sent" | "new" | "success"
 
@@ -24,11 +24,17 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
   const [password, setPassword] = useState("")
   const [confirm, setConfirm] = useState("")
   const [passwordTouched, setPasswordTouched] = useState(false)
+  const [passwordFocused, setPasswordFocused] = useState(false)
   const [confirmTouched, setConfirmTouched] = useState(false)
   const tokenShape = /^[A-Za-z0-9]{7}$/.test(token)
-  const passwordEmpty = passwordTouched && password === ""
-  const mismatch = confirmTouched && confirm !== "" && confirm !== password
-  const canReset = !busy && token !== "" && password !== "" && confirm === password
+  const strength = passwordStrength(password)
+  const passwordOk = password.length >= PASSWORD_MIN
+  const passwordEmpty = passwordTouched && !passwordFocused && password === ""
+  const passwordShort = passwordTouched && !passwordFocused && password !== "" && !passwordOk
+  const passwordFeedback = passwordEmpty || passwordShort ? "error" : passwordOk ? "success" : "null"
+  // Mismatch shows when leaving the field, or live once the confirmation is as long as the password.
+  const mismatch = confirm !== "" && confirm !== password && (confirmTouched || confirm.length >= password.length)
+  const canReset = !busy && token !== "" && passwordOk && confirm === password
 
   useEffect(() => {
     if (step !== "success") return
@@ -112,11 +118,18 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
               placeholder="your new password"
               autoComplete="new-password"
               value={password}
+              maxLength={PASSWORD_MAX}
               onChange={(e) => setPassword(e.target.value)}
-              onBlur={() => setPasswordTouched(true)}
-              hasFeedback={passwordEmpty ? "error" : password !== "" ? "success" : "null"}
-              fieldStatus={keepLook(passwordEmpty ? "error" : password !== "" ? "success" : "null")}
-              message={passwordEmpty ? { kind: "error", type: "empty" } : undefined}
+              onFocus={() => setPasswordFocused(true)}
+              onBlur={() => { setPasswordFocused(false); setPasswordTouched(true) }}
+              hasFeedback={passwordFeedback}
+              fieldStatus={keepLook(passwordFeedback)}
+              message={
+                passwordEmpty ? { kind: "error", type: "empty" }
+                : passwordShort ? { kind: "error", type: "length", text: `Your password must be at least ${PASSWORD_MIN} characters` }
+                : passwordFocused ? { kind: "password-strength", feedback: strength }
+                : undefined
+              }
             />
             <InputfieldStack
               label="Confirm password"
@@ -124,6 +137,7 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
               placeholder="introduce again your new password"
               autoComplete="new-password"
               value={confirm}
+              maxLength={PASSWORD_MAX}
               onChange={(e) => setConfirm(e.target.value)}
               onBlur={() => setConfirmTouched(true)}
               hasFeedback={mismatch ? "error" : confirm !== "" && confirm === password ? "success" : "null"}

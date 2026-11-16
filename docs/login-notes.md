@@ -4,6 +4,9 @@
 The UI also has a designed **Landing page** (welcome card "What you have missed", five nav cards, sidebar) that replaces the placeholder landing once its components exist.
 Figma typo: the token error reads "Token is no valid. It needs t o be 7 alphanumerical characters."; built as "Token is not valid. It needs to be 7 alphanumerical characters." (confirm).
 Motion: see `docs/motion.md`.
+Prototype controls: floating button top left (`src/app/ProtoControls.tsx`) lists flows and screens, shows the demo data, and restarts the current screen. It is prototype chrome, not part of the design.
+New password rules (Silvia): 5 to 15 characters (`PASSWORD_MIN`/`PASSWORD_MAX` in `validation.ts`, native `maxLength` on both fields). While the first password field is focused it shows the strength message as bottom text ("Password must be at least 5 characters." until 5 characters, then weak / medium / strong). After leaving a short or empty field it shows an error. Confirm shows "Your passwords don’t match" on blur, or live once it is as long as the password.
+OPEN: the rule "Only numbers, spaces, and symbols (+, -)" is not applied yet (see the question to Silvia).
 
 Screens: sign in (empty, invalid email, wrong password with "ask to reset", loading, success), reset password (request, token sent, new password with strength and errors, success with auto-return after 3 s), and a placeholder landing page with Sign out.
 Deep links: `?screen=reset`, `?screen=reset&step=sent|new|success`, `?screen=landing`.

@@ -13,6 +13,7 @@ npm run build
 
 ## Layout
 - `src/app/`: the prototype itself (shell, screens, fake data). Own code.
+- `src/app/ProtoControls.tsx`: floating prototype controls (flows, screens, demo data). Add each new flow's screens to its list.
 - `src/ui/index.ts`: the ONLY place screens import UI from (`@/ui`).
 - `src/components/ui`, `src/components/atoms`, `src/lib`, `src/styles`, `src/ds.css`: **synced from ds_POC, never edit.** Run `npm run ds:sync` (`-- --ref <sha>` to pin). `ds-sync.json` records the commit.
 - `src/placeholders/`: stock shadcn stand-ins for components not yet built in the design system. Each starts with a `PLACEHOLDER:` header. `npm run ds:placeholders` lists them: that is the to-build list.
