@@ -31,7 +31,7 @@ export default function App() {
   return (
     <>
       {target.screen === "reset" && <ResetPassword key={run} initialStep={target.step} onDone={() => go({ screen: "signin" })} onBack={() => go({ screen: "signin" })} />}
-      {target.screen === "landing" && <Landing key={run} onSignOut={() => go({ screen: "signin" })} />}
+      {target.screen === "landing" && <Landing key={run} />}
       {target.screen === "signin" && <SignIn key={run} onSignedIn={() => setTarget({ screen: "landing" })} onForgot={() => go({ screen: "reset", step: "request" })} />}
       <ProtoControls current={target} onGo={go} onRestart={() => setRun((r) => r + 1)} />
     </>

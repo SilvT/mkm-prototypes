@@ -37,7 +37,7 @@ export function ProtoControls({ current, onGo, onRestart }: Props) {
             {item("Reset: token sent", { screen: "reset", step: "sent" })}
             {item("Reset: new password", { screen: "reset", step: "new" })}
             {item("Reset: success", { screen: "reset", step: "success" })}
-            {item("Landing (placeholder)", { screen: "landing" })}
+            {item("Landing", { screen: "landing" })}
           </section>
 
           <section className="flex flex-col gap-content-xs">
