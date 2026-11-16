@@ -1,0 +1,19 @@
+# Login flow: what is built, and the gaps
+
+Screens: sign in (empty, invalid email, wrong password with "ask to reset", loading, success), reset password (request, token sent, new password with strength and errors, success with auto-return after 3 s), and a placeholder landing page with Sign out.
+Deep links: `?screen=reset`, `?screen=reset&step=sent|new|success`, `?screen=landing`.
+Demo data: `src/app/auth/seed.ts` (email, password, token `051TD45`). Change password is deferred (spec decision); the "Change your password" link is left off the card.
+
+## Gaps (inferred, or missing from the design system)
+
+- **Placeholders added:** `Loader` (112px, size has no token) and `LineLoader` in `src/placeholders/loader.tsx`. Speeds (1 s, 1.2 s) are choices, not from the design.
+- **Missing icons:** a check-in-circle for "Token sent!" (stand-in: `check`).
+- **Feedback only on active fields:** inputfield-base draws error and success only while the field is hovered or focused; Figma shows them on idle fields. Worked around with `fieldStatus="active"` (`keepLook` in `validation.ts`).
+- **Focusable feedback icon:** the success/error icon is a button in the tab order, so Tab from Username lands on it before Password. Figma order is username, password, eye, Forgot, Log in.
+- **"ask to reset" link:** the error atom renders it without an `onClick`/`href`, so it is not keyboard reachable. Click is caught on the card as a workaround.
+- **Error copy:** "Token is not valid" uses the `editable` type with a text override (no dedicated type).
+- **Card:** built as a small `AuthCard` in app code (white, 450 wide); the DS `card` is a different shape (two containers, accent border). Reset cards use the same 450 width; Figma is 365.
+- **Page background:** `AuthStage` uses `--gradient-general` directly; needs a design system page/background component.
+- **Copy** is from `mkm-poc/docs/login-spec.md` with typos fixed, not re-read from Figma.
+- **Proposed (not in Figma):** "Back to log in" link on the reset request step; 3 s auto-return after reset success; the landing placeholder; the strength rules (weak under 8 chars or one class; strong at 12+ with three classes).
+- Not checked: axe, `npm run verify`-style checks (this repo has none yet), non-Chrome browsers.

@@ -1,16 +1,24 @@
-import { Button, Checkbox, TooltipProvider } from "@/ui"
+import { useState } from "react"
+import { SignIn } from "./login/SignIn"
+import { ResetPassword } from "./login/ResetPassword"
+import { Landing } from "./login/Landing"
 
-// Scaffold smoke test: one real design-system component and one placeholder. Replaced by the app shell.
+type Screen = "signin" | "reset" | "landing"
+
+// ?screen=reset (&step=sent|new|success) opens a screen directly (prototype convenience).
+const fromUrl = (): Screen => {
+  const s = new URLSearchParams(location.search).get("screen")
+  return s === "reset" || s === "landing" ? s : "signin"
+}
+
+const stepFromUrl = () => {
+  const s = new URLSearchParams(location.search).get("step")
+  return s === "sent" || s === "new" || s === "success" ? s : "request"
+}
+
 export default function App() {
-  return (
-    <TooltipProvider>
-      <main className="flex flex-col gap-4 p-8">
-        <h1>MkM prototypes</h1>
-        <Button label="Real DS button" />
-        <label className="flex items-center gap-2">
-          <Checkbox /> Placeholder checkbox
-        </label>
-      </main>
-    </TooltipProvider>
-  )
+  const [screen, setScreen] = useState<Screen>(fromUrl)
+  if (screen === "reset") return <ResetPassword initialStep={stepFromUrl()} onDone={() => setScreen("signin")} onBack={() => setScreen("signin")} />
+  if (screen === "landing") return <Landing onSignOut={() => setScreen("signin")} />
+  return <SignIn onSignedIn={() => setScreen("landing")} onForgot={() => setScreen("reset")} />
 }
