@@ -10,7 +10,7 @@ export function DesktopFrame({ src, ref }: { src: string; ref?: Ref<HTMLIFrameEl
         ref={ref}
         src={src}
         title="Prototype, desktop frame"
-        className="h-(--dimensions-800) max-h-full w-(--dimensions-1440) max-w-full resize overflow-auto rounded-large border-none bg-white shadow-[0_0_0_var(--border-width-light)_var(--stroke-neutral-light)]"
+        className="h-[1024px] max-h-full w-(--dimensions-1440) max-w-full resize overflow-auto rounded-large border-none bg-white shadow-[0_0_0_var(--border-width-light)_var(--stroke-neutral-light)]"
       />
     </div>
   )
