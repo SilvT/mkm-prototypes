@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Button, Icon, InputfieldStack, LineLoader, Link } from "@/ui"
 import { auth, AuthError } from "@/app/auth"
 import { AuthCard, AuthStage } from "./AuthStage"
-import { isEmail, keepLook, passwordStrength } from "./validation"
+import { isEmail, keepLook } from "./validation"
 
 type Step = "request" | "sent" | "new" | "success"
 
@@ -25,7 +25,7 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
   const [confirm, setConfirm] = useState("")
   const [passwordTouched, setPasswordTouched] = useState(false)
   const [confirmTouched, setConfirmTouched] = useState(false)
-  const strength = passwordStrength(password)
+  const tokenShape = /^[A-Za-z0-9]{7}$/.test(token)
   const passwordEmpty = passwordTouched && password === ""
   const mismatch = confirmTouched && confirm !== "" && confirm !== password
   const canReset = !busy && token !== "" && password !== "" && confirm === password
@@ -58,7 +58,7 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
 
   return (
     <AuthStage>
-      <AuthCard label="Reset password">
+      <AuthCard key={step} label="Reset password">
         {step === "request" && (
           <form noValidate onSubmit={(e) => { e.preventDefault(); send() }} className="flex flex-col gap-content-l">
             <p className="text-body-b3">Enter your username or email so we can send you a <strong>token</strong> to reset your password</p>
@@ -67,7 +67,7 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
             <InputfieldStack
               label="Email"
               type="email"
-              placeholder="introduce your email address"
+              placeholder="introduce your email"
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -98,30 +98,30 @@ export function ResetPassword({ onDone, onBack, initialStep = "request" }: { onD
             <p className="text-body-b3">Set your brand new password</p>
             <InputfieldStack
               label="Token"
-              placeholder="enter token"
+              placeholder="enter token here"
               autoComplete="one-time-code"
               value={token}
               onChange={(e) => { setToken(e.target.value); setTokenWrong(false) }}
-              hasFeedback={tokenWrong ? "error" : "null"}
-              fieldStatus={keepLook(tokenWrong ? "error" : "null")}
-              message={tokenWrong ? { kind: "error", type: "editable", text: "Token is not valid", hasLink: false } : undefined}
+              hasFeedback={tokenWrong ? "error" : tokenShape ? "success" : "null"}
+              fieldStatus={keepLook(tokenWrong ? "error" : tokenShape ? "success" : "null")}
+              message={tokenWrong ? { kind: "error", type: "editable", text: "Token is not valid. It needs to be 7 alphanumerical characters.", hasLink: false } : undefined}
             />
             <InputfieldStack
               label="Password"
               type="password"
-              placeholder="Your Password"
+              placeholder="your new password"
               autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onBlur={() => setPasswordTouched(true)}
-              hasFeedback={passwordEmpty ? "error" : "null"}
-              fieldStatus={keepLook(passwordEmpty ? "error" : "null")}
-              message={passwordEmpty ? { kind: "error", type: "empty" } : { kind: "password-strength", feedback: strength }}
+              hasFeedback={passwordEmpty ? "error" : password !== "" ? "success" : "null"}
+              fieldStatus={keepLook(passwordEmpty ? "error" : password !== "" ? "success" : "null")}
+              message={passwordEmpty ? { kind: "error", type: "empty" } : undefined}
             />
             <InputfieldStack
               label="Confirm password"
               type="password"
-              placeholder="introduce your password"
+              placeholder="introduce again your new password"
               autoComplete="new-password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}

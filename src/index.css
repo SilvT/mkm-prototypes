@@ -4,3 +4,43 @@
 /* Placeholder motion for LineLoader (src/placeholders/loader.tsx): a bar sliding along its track. Timing is a choice, not from the design. */
 @keyframes line-loader-slide { to { transform: translateX(300%); } }
 @theme inline { --animate-line-loader: line-loader-slide 1.2s ease-in-out infinite alternate; }
+
+/* ---------------------------------------------------------------------------------------------------------------------
+   Default motion (Proposed: the design system defines no transitions or animations; these follow common conventions).
+   Durations: fast 150ms for state changes (hover, focus, press), base 200ms for things that appear or change screen.
+   Easing: standard decelerate (Material "standard"). Enter-only: items fade in and rise a few pixels; nothing animates out.
+   prefers-reduced-motion: durations drop to ~0 through the tokens. Belongs in ds_POC once agreed; see docs/motion.md.
+   --------------------------------------------------------------------------------------------------------------------- */
+:root {
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  :root { --motion-fast: 0.01ms; --motion-base: 0.01ms; }
+}
+
+@keyframes motion-enter {
+  from { opacity: 0; transform: translateY(var(--dimensions-8)); }
+}
+@keyframes motion-enter-inline {
+  from { opacity: 0; transform: translateY(calc(var(--dimensions-4) * -1)); }
+}
+@theme inline { --animate-motion-enter: motion-enter var(--motion-base) var(--motion-ease) both; }
+
+/* State changes on the components: colour, border and fill ease instead of snapping. */
+[data-slot="button"],
+[data-slot="button-icon"],
+[data-slot="links"],
+[data-slot="indicator-count"],
+[data-slot="inputfield-base"] > div:first-child {
+  transition-property: color, background-color, border-color, box-shadow, opacity;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--motion-ease);
+}
+
+/* Things that appear inside a field (error and helper messages, the feedback icon) fade in from just above. */
+[data-slot^="inputfield-base-bottom-message"],
+[data-slot="inputfield-base-feedback"] {
+  animation: motion-enter-inline var(--motion-base) var(--motion-ease) both;
+}

@@ -6,7 +6,7 @@ import { AuthStage } from "./AuthStage"
 export function Landing({ onSignOut }: { onSignOut: () => void }) {
   return (
     <AuthStage>
-      <div className="flex flex-col items-center gap-content-l">
+      <div className="animate-motion-enter flex flex-col items-center gap-content-l">
         <p className="text-body-b2">Signed in as {auth.getSession()?.email}</p>
         <Button label="Sign out" hasLeadIcon={false} onClick={() => { auth.signOut(); onSignOut() }} />
       </div>

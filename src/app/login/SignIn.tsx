@@ -38,7 +38,7 @@ export function SignIn({ onSignedIn, onForgot }: Props) {
     if (e.key === "Enter") submit()
   }
 
-  if (loading) return <AuthStage><Loader label="Signing in" /></AuthStage>
+  if (loading) return <AuthStage><div className="animate-motion-enter"><Loader label="Signing in" /></div></AuthStage>
 
   return (
     <AuthStage>

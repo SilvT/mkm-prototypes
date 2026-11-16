@@ -18,8 +18,9 @@ export function AuthStage({ children }: { children?: ReactNode }) {
 
 // White card that holds a form (Figma log-in-box, 450 wide).
 export function AuthCard({ children, label }: { children: ReactNode; label: string }) {
+  // Mounts with a fade and rise (animate-motion-enter). Give it a `key` that changes with the step to replay it.
   return (
-    <section aria-label={label} className="flex w-surfaces-m max-w-full flex-col gap-content-l rounded-large bg-surface-neutral-extrasubtle p-content-4xl">
+    <section aria-label={label} className="animate-motion-enter flex w-surfaces-m max-w-full flex-col gap-content-l rounded-large bg-surface-neutral-extrasubtle p-content-4xl">
       {children}
     </section>
   )

@@ -1,5 +1,10 @@
 # Login flow: what is built, and the gaps
 
+**Source of truth:** Figma file "The UI" (`GrTAWT9G3Xsr1pRSVAxHa7`, page "login"). The login screens in the MkM_WIP file are outdated. Copy and placeholders were aligned to The UI on 2026-11-16 (token placeholder "enter token here", "introduce again your new password", email placeholder "introduce your email", token error text, token and password success checks; the reset screens have no strength meter).
+The UI also has a designed **Landing page** (welcome card "What you have missed", five nav cards, sidebar) that replaces the placeholder landing once its components exist.
+Figma typo: the token error reads "Token is no valid. It needs t o be 7 alphanumerical characters."; built as "Token is not valid. It needs to be 7 alphanumerical characters." (confirm).
+Motion: see `docs/motion.md`.
+
 Screens: sign in (empty, invalid email, wrong password with "ask to reset", loading, success), reset password (request, token sent, new password with strength and errors, success with auto-return after 3 s), and a placeholder landing page with Sign out.
 Deep links: `?screen=reset`, `?screen=reset&step=sent|new|success`, `?screen=landing`.
 Demo data: `src/app/auth/seed.ts` (email, password, token `051TD45`). Change password is deferred (spec decision); the "Change your password" link is left off the card.
@@ -14,6 +19,6 @@ Demo data: `src/app/auth/seed.ts` (email, password, token `051TD45`). Change pas
 - **Error copy:** "Token is not valid" uses the `editable` type with a text override (no dedicated type).
 - **Card:** built as a small `AuthCard` in app code (white, 450 wide); the DS `card` is a different shape (two containers, accent border). Reset cards use the same 450 width; Figma is 365.
 - **Page background:** `AuthStage` uses `--gradient-general` directly; needs a design system page/background component.
-- **Copy** is from `mkm-poc/docs/login-spec.md` with typos fixed, not re-read from Figma.
+- **Copy** was first taken from `mkm-poc/docs/login-spec.md`, then reset-screen copy was checked against The UI screenshots; sign-in and success copy are unchanged from that spec.
 - **Proposed (not in Figma):** "Back to log in" link on the reset request step; 3 s auto-return after reset success; the landing placeholder; the strength rules (weak under 8 chars or one class; strong at 12+ with three classes).
 - Not checked: axe, `npm run verify`-style checks (this repo has none yet), non-Chrome browsers.
