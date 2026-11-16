@@ -11,7 +11,7 @@ export function AuthStage({ children }: { children?: ReactNode }) {
         <p className="text-body-b3 text-content-neutral-medium">Fuel your connections, Drive Growth</p>
       </header>
       <div className="flex flex-1 items-center justify-center">{children}</div>
-      <footer className="text-body-b5 text-content-neutral-medium">A technology by Senapt</footer>
+      <footer className="text-body-b5 text-content-neutral-medium">A technology by <span className="text-content-brand-medium">Senapt</span></footer>
     </main>
   )
 }
